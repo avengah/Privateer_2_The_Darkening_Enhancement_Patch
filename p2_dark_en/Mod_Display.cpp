@@ -1881,9 +1881,40 @@ void Modifications_Display() {
     FuncWrite32(0x439901, 0x0279AEB8, (DWORD)&cursor_unclip_space_exit);
     MemWrite16(0x439905, 0x0000, 0x9090);
 
-    MemWrite16(0x43995C, 0xB883, 0xE890);
-    FuncWrite32(0x43995E, 0x00001154, (DWORD)&cursor_clip_space_exit);
-    MemWrite8(0x439962, 0x02, 0x90);
+//0044211E | .E8 7D860100   CALL NAV(EAX * space_struct)
+FuncReplace32(0x44211F, 0x01867D, (DWORD)&cursor_clipper_navigation_screen);
+//disable set mouse pos to allow mouse to move freely in windowed mode.
+MemWrite8(0x45B446, 0xE8, 0x90);
+MemWrite32(0x45B447, 0xFFFBD579, 0x90909090);
+
+//disable set mouse pos for P.A.D. to allow mouse to move freely in windowed mode.
+MemWrite8(0x436B34, 0xE8, 0x90);
+MemWrite32(0x436B35, 0xFFFE1E8B, 0x90909090);
+
+
+//0043C14E | .E8 E1FC0100 | CALL EMAIL() ? ?
+FuncReplace32(0x43C14F, 0x01FCE1, (DWORD)&cursor_clipper_email_screen);
+//00442593 | .E8 BC9E0100   CALL DIARY() ? ?
+FuncReplace32(0x442594, 0x019EBC, (DWORD)&cursor_clipper_diary_screen);
+//00442726 | .E8 49CC0100   CALL ALT_H_MENU() ? ?
+FuncReplace32(0x442727, 0x01CC49, (DWORD)&cursor_clipper_hotkeys_screen);
+
+
+//put space alt x window in GUI mode while it is up.
+MemWrite32(0x4398FF, 0xAEB88366, 0xE8909090);
+FuncWrite32(0x439903, 0x00000279, (DWORD)&alt_x_window_space_start);
+
+MemWrite32(0x439921, 0xAE80C766, 0xE8909090);
+FuncWrite32(0x439925, 0x00000279, (DWORD)&alt_x_window_space_end);
+MemWrite8(0x439929, 0x00, 0x90);
+
+MemWrite32(0x439944, 0xAE80C766, 0xE8909090);
+FuncWrite32(0x439948, 0x00000279, (DWORD)&alt_x_window_space_end);
+MemWrite8(0x43994C, 0x00, 0x90);
+
+MemWrite16(0x43995C, 0xB883, 0xE890);
+FuncWrite32(0x43995E, 0x00001154, (DWORD)&cursor_clip_space_exit);
+MemWrite8(0x439962, 0x02, 0x90);
     //-----------------------------------------------------------------------------
 
         //in void ERROR_EXIT_MESSAGE_BOX(const char* msg) //should be all right
