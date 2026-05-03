@@ -1,9 +1,9 @@
 /*
 The MIT License (MIT)
-Copyright © 2025 Matt Wells
+Copyright ï¿½ 2025 Matt Wells
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this
-software and associated documentation files (the “Software”), to deal in the
+software and associated documentation files (the ï¿½Softwareï¿½), to deal in the
 Software without restriction, including without limitation the rights to use, copy,
 modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
 and to permit persons to whom the Software is furnished to do so, subject to the
@@ -12,7 +12,7 @@ following conditions:
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+THE SOFTWARE IS PROVIDED ï¿½AS ISï¿½, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
 PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
 HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
@@ -226,10 +226,6 @@ static BOOL Window_Setup(HWND hwnd) {
             Check_Window_GUI_Scaling_Limits(hwnd, &winPlace.rcNormalPosition, false);
         
         SetWindowPlacement(hwnd, &winPlace);
-
-        //disable close button for now.
-        HMENU SysMenu = GetSystemMenu(hwnd, FALSE);
-        RemoveMenu(SysMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
     }
     else {
         Debug_Info("Window Setup: Fullscreen");
@@ -1714,6 +1710,9 @@ void Modifications_Display() {
     FuncWrite32(0x4189C5, 0xE998D2BF, (DWORD)&set_mouse_pos);
     MemWrite32(0x4189C9, 0x05199B, 0x90909090);
 
+    //disable close[X] button when registering window class.
+    MemWrite32(0x46ABD2, CS_VREDRAW | CS_HREDRAW | CS_DBLCLKS, CS_VREDRAW | CS_HREDRAW | CS_DBLCLKS | CS_NOCLOSE);
+    MemWrite32(0x46AD5A, CS_VREDRAW | CS_HREDRAW | CS_DBLCLKS, CS_VREDRAW | CS_HREDRAW | CS_DBLCLKS | CS_NOCLOSE);
 
     //replace WinProc function
     MemWrite8(0x46A8E8, 0x53, 0xE9);
