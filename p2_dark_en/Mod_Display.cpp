@@ -200,6 +200,10 @@ static bool Display_Exit() {
 //_________________________________
 static BOOL Window_Setup(HWND hwnd) {
 
+    Check_Command_Line_Overrides();
+
+    hinst_DARK = GetModuleHandleW(nullptr);
+
     QueryPerformanceFrequency(&Frequency);
     
     if (ConfigReadInt_InGame(L"MAIN", L"WINDOWED", CONFIG_MAIN_WINDOWED))
