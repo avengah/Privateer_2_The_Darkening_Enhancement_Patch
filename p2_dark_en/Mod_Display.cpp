@@ -1886,6 +1886,14 @@ void Modifications_Display() {
     MemWrite16(0x43995C, 0xB883, 0xE890);
     FuncWrite32(0x43995E, 0x00001154, (DWORD)&cursor_clip_space_exit);
     MemWrite8(0x439962, 0x02, 0x90);
+
+    //disable set mouse pos to allow mouse to move freely in windowed mode.
+    MemWrite8(0x45B446, 0xE8, 0x90);
+    MemWrite32(0x45B447, 0xFFFBD579, 0x90909090);
+
+    //disable set mouse pos for P.A.D. to allow mouse to move freely in windowed mode.
+    MemWrite8(0x436B34, 0xE8, 0x90);
+    MemWrite32(0x436B35, 0xFFFE1E8B, 0x90909090);
     //-----------------------------------------------------------------------------
 
         //in void ERROR_EXIT_MESSAGE_BOX(const char* msg) //should be all right
